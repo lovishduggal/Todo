@@ -1,6 +1,8 @@
 import Todo from '../Todo/Todo';
-
-function TodoList({ list, updateList }) {
+import TodoContext from '../../context/TodoContext';
+import { useContext } from 'react';
+function TodoList() {
+    const { list, setList } = useContext(TodoContext);
     return (
         <div>
             {list.length > 0 &&
@@ -9,14 +11,8 @@ function TodoList({ list, updateList }) {
                         key={todo.id}
                         todoData={todo.todoData}
                         finished={todo.finished}
-                        updateList={updateList}
-                        changeFinished={(finish) => {
-                            const updatedList = list.map((t) => {
-                                if (t.id === todo.id) todo.finished = finish;
-                                return t;
-                            });
-                            updateList(updatedList);
-                        }}
+                        id={todo.id}
+                        // updateList={updateList}
                     />
                 ))}
         </div>

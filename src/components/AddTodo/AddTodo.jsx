@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import TodoContext from '../../context/TodoContext';
 function AddTodo({ updateList }) {
     const [inputText, setInputText] = useState('');
     return (
@@ -8,9 +8,17 @@ function AddTodo({ updateList }) {
                 type="text"
                 value={inputText}
                 placeholder="Add next todo"
-                onChange={(e) => setInputText(e.target.value)}
+                onChange={(e) => {
+                    setInputText(e.target.value);
+                }}
             />
-            <button onClick={() => updateList(inputText)}>Add</button>
+            <button
+                onClick={() => {
+                    updateList(inputText);
+                    setInputText('');
+                }}>
+                Add
+            </button>
         </div>
     );
 }
