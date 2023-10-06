@@ -2,7 +2,7 @@ import Todo from '../Todo/Todo';
 import TodoContext from '../../context/TodoContext';
 import { useContext } from 'react';
 function TodoList() {
-    const { list, setList } = useContext(TodoContext);
+    const { list } = useContext(TodoContext);
     return (
         <div>
             {list.length > 0 &&
@@ -12,7 +12,6 @@ function TodoList() {
                         todoData={todo.todoData}
                         finished={todo.finished}
                         id={todo.id}
-                        // updateList={updateList}
                     />
                 ))}
         </div>

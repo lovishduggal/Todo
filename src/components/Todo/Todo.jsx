@@ -1,33 +1,12 @@
 import { useContext, useState } from 'react';
 import TodoContext from '../../context/TodoContext';
+import TodoReducerContext from '../../context/TodoReducerContext';
 function Todo({ todoData, finished, id }) {
-    const { list, setList } = useContext(TodoContext);
+    const { list } = useContext(TodoContext);
+    const { dispatch } = useContext(TodoReducerContext);
     const [finish, setFinish] = useState(finished);
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(todoData);
-
-    const changeFinished = (finish) => {
-        const updatedList = list.map((t) => {
-            if (t.id === id) t.finished = finish;
-            return t;
-        });
-        setList(updatedList);
-    };
-
-    const onDelete = () => {
-        const updatedList = list.filter((t) => t.id !== id);
-        setList(updatedList);
-    };
-
-    const onEdit = (todoText) => {
-        const updatedList = list.map((t) => {
-            if (t.id === id) {
-                t.todoData = todoText;
-            }
-            return t;
-        });
-        setList(updatedList);
-    };
 
     return (
         <div>
@@ -36,7 +15,10 @@ function Todo({ todoData, finished, id }) {
                 checked={finish}
                 onChange={(e) => {
                     setFinish(e.target.checked);
-                    changeFinished(e.target.checked);
+                    dispatch({
+                        type: 'change_finished',
+                        payload: { finish: e.target.checked, id },
+                    });
                 }}
             />
             {isEditing ? (
@@ -53,11 +35,19 @@ function Todo({ todoData, finished, id }) {
             <button
                 onClick={() => {
                     setIsEditing(!isEditing);
-                    onEdit(editText);
+                    dispatch({
+                        type: 'on_edit',
+                        payload: { todoText: editText, id },
+                    });
                 }}>
                 {!isEditing ? 'Edit' : 'Save'}
             </button>
-            <button onClick={onDelete}>Delete</button>
+            <button
+                onClick={() =>
+                    dispatch({ type: 'on_delete', payload: { id } })
+                }>
+                Delete
+            </button>
         </div>
     );
 }
