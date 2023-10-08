@@ -1,0 +1,28 @@
+.todo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 0.5rem;
+}
+
+.todo-wrapper > span {
+    color: #fff;
+    text-transform: capitalize;
+}
+
+.todo-wrapper > input {
+    padding: 0.5rem 1rem;
+    border: 1px solid black;
+    border-radius: 4px;
+    outline: none;
+    width: 100%;
+}
+.todo-wrapper > button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    outline: none;
+    font-weight: bold;
+    background-color: #fff;
+    min-height: auto;
+}

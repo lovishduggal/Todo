@@ -1,11 +1,9 @@
-import { useContext, useState } from 'react';
-import TodoContext from '../../context/TodoContext';
-import TodoReducerContext from '../../context/TodoReducerContext';
-function AddTodo() {
+import { useState } from 'react';
+import './AddTodo.css';
+function AddTodo({ addTodo }) {
     const [inputText, setInputText] = useState('');
-    const { dispatch } = useContext(TodoReducerContext);
     return (
-        <div>
+        <div className="add-todo-wrapper">
             <input
                 type="text"
                 value={inputText}
@@ -16,10 +14,7 @@ function AddTodo() {
             />
             <button
                 onClick={() => {
-                    dispatch({
-                        type: 'add_todo',
-                        payload: { todoText: inputText },
-                    });
+                    addTodo(inputText);
                     setInputText('');
                 }}>
                 Add

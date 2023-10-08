@@ -1,24 +1,21 @@
-import { useContext, useState } from 'react';
-import TodoContext from '../../context/TodoContext';
-import TodoReducerContext from '../../context/TodoReducerContext';
-function Todo({ todoData, finished, id }) {
-    const { list } = useContext(TodoContext);
-    const { dispatch } = useContext(TodoReducerContext);
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import './Todo.css';
+
+function Todo({ todoData, finished, id, changedFinish, onEdit, onDelete }) {
+    const dispatch = useDispatch();
     const [finish, setFinish] = useState(finished);
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(todoData);
 
     return (
-        <div>
-            <input
+        <div className="todo-wrapper">
+            <input className='checkbox'
                 type="checkbox"
                 checked={finish}
                 onChange={(e) => {
                     setFinish(e.target.checked);
-                    dispatch({
-                        type: 'change_finished',
-                        payload: { finish: e.target.checked, id },
-                    });
+                    changedFinish(e.target.checked, id);
                 }}
             />
             {isEditing ? (
@@ -30,24 +27,16 @@ function Todo({ todoData, finished, id }) {
                     }}
                 />
             ) : (
-                todoData
+                <span> todoData</span>
             )}
             <button
                 onClick={() => {
                     setIsEditing(!isEditing);
-                    dispatch({
-                        type: 'on_edit',
-                        payload: { todoText: editText, id },
-                    });
+                    onEdit(editText, id);
                 }}>
                 {!isEditing ? 'Edit' : 'Save'}
             </button>
-            <button
-                onClick={() =>
-                    dispatch({ type: 'on_delete', payload: { id } })
-                }>
-                Delete
-            </button>
+            <button onClick={() => onDelete(id)}>Delete</button>
         </div>
     );
 }
