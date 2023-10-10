@@ -2,13 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import AddTodo from './components/AddTodo/AddTodo';
 import TodoList from './components/TodoList/TodoList';
-import {
-    addTodo,
-    changedFinish,
-    onEdit,
-    onDelete,
-} from './actions/todoActions';
 import { bindActionCreators } from 'redux';
+import { addTodo, onEdit, changedFinish, onDelete } from './slices/todoSlice';
 
 function App() {
     const list = useSelector((state) => state.todo);

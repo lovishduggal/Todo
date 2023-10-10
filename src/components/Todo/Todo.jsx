@@ -1,21 +1,19 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import './Todo.css';
 
 function Todo({ todoData, finished, id, changedFinish, onEdit, onDelete }) {
-    const dispatch = useDispatch();
     const [finish, setFinish] = useState(finished);
     const [isEditing, setIsEditing] = useState(false);
     const [editText, setEditText] = useState(todoData);
-
     return (
         <div className="todo-wrapper">
-            <input className='checkbox'
+            <input
+                className="checkbox"
                 type="checkbox"
                 checked={finish}
                 onChange={(e) => {
                     setFinish(e.target.checked);
-                    changedFinish(e.target.checked, id);
+                    changedFinish({ finish: e.target.checked, id });
                 }}
             />
             {isEditing ? (
@@ -27,16 +25,16 @@ function Todo({ todoData, finished, id, changedFinish, onEdit, onDelete }) {
                     }}
                 />
             ) : (
-                <span> todoData</span>
+                <span>{todoData}</span>
             )}
             <button
                 onClick={() => {
                     setIsEditing(!isEditing);
-                    onEdit(editText, id);
+                    onEdit({ todoText: editText, id });
                 }}>
                 {!isEditing ? 'Edit' : 'Save'}
             </button>
-            <button onClick={() => onDelete(id)}>Delete</button>
+            <button onClick={() => onDelete({ id })}>Delete</button>
         </div>
     );
 }
